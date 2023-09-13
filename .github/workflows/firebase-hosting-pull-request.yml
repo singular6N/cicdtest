@@ -27,16 +27,16 @@ jobs:
       with:
         name: web-build
         path: build/web
-  deploy:
+  build_and_deploy:
       needs: build_web
       runs-on: ubuntu-latest  
-      steps:
+      steps:      
         - name: checkout
           uses: actions/checkout@v3
-        - name: Set up Node.js
+        - name: Setup Node
           uses: actions/setup-node@v2
           with:
-            node-version: 16
+              node-version: '16'
         - name: Download Artifact
           uses: actions/download-artifact@master
           with:
@@ -46,6 +46,6 @@ jobs:
           uses: FirebaseExtended/action-hosting-deploy@v0
           with:
             repoToken: '${{ secrets.GITHUB_TOKEN }}'
-            firebaseServiceAccount: '${{secrets.cicdff}}'
+            firebaseServiceAccount: '${{ secrets.cicdff }}'
             channelId: live
             projectId: cicdff
